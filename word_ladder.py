@@ -1,4 +1,5 @@
 #!/bin/python3
+import collections
 
 
 def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
@@ -28,14 +29,41 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     Whenever it is impossible to generate a word ladder between the two words,
     the function returns `None`.
     '''
+    f = open(dictionary_file, 'r')
+    words = [w.strip('\n') for w in f]
 
-
+    word_lst = []
+    word_lst.append(start_word)
+    word_q = collections.deque([], 100)
+    word_q.appendleft(word_lst)
+    counter = 0 
+    while word_q: 
+        temp_stack = word_q.pop()
+        print(counter)
+        for word in words:
+            if _adjacent(word, temp_stack[-1]):
+                    print('adjacent')
+                    if word == end_word:
+                        print('done!')
+                    stack_copy = temp_stack.copy()
+                    stack_copy.append(word)
+                    word_q.appendleft(stack_copy)
+                    print('i')
+                    words.remove(word)
+            counter += 1
+        print('d')
 def verify_word_ladder(ladder):
     '''
     Returns True if each entry of the input list is adjacent to its neighbors;
     otherwise returns False.
+    
+    >>> verify_word_ladder(['dog', 'bog', 'hog', 'log'])
+    True
     '''
-
+    for i in range(len(ladder) - 1):
+        if _adjacent(ladder[i], ladder[i+1]) == False:
+            return False
+    return True
 
 def _adjacent(word1, word2):
     '''
@@ -47,3 +75,19 @@ def _adjacent(word1, word2):
     >>> _adjacent('stone','money')
     False
     '''
+    if len(word1) != len(word2):
+        return False
+
+    count = 0
+
+    for i in range(len(word1)):
+        if word1[i] != word2[i]:
+            count += 1
+
+    if count == 1:
+        return True
+    else:
+        return False
+
+
+word_ladder('dig', 'dog')
