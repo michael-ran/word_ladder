@@ -34,7 +34,7 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
 
     word_lst = []
     word_lst.append(start_word)
-    word_q = collections.deque([], 100)
+    word_q = collections.deque()
     word_q.appendleft(word_lst)
     while word_q: 
         temp_stack = word_q.pop()
@@ -42,7 +42,6 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
             if _adjacent(word, temp_stack[-1]):
                     if word == end_word:
                         temp_stack.append(word)
-                        print(temp_stack)
                         return(temp_stack)
                     stack_copy = temp_stack.copy()
                     stack_copy.append(word)
@@ -56,6 +55,8 @@ def verify_word_ladder(ladder):
     >>> verify_word_ladder(['dog', 'bog', 'hog', 'log'])
     True
     '''
+    if len(ladder) == 0:
+        return False
     for i in range(len(ladder) - 1):
         if _adjacent(ladder[i], ladder[i+1]) == False:
             return False
@@ -88,4 +89,3 @@ def _adjacent(word1, word2):
         return False
 
 
-word_ladder('stone', 'money')
