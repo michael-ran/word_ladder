@@ -31,7 +31,8 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     '''
     f = open(dictionary_file, 'r')
     words = [w.strip('\n') for w in f]
-
+    if start_word == end_word:
+        return([start_word])
     word_lst = []
     word_lst.append(start_word)
     word_q = collections.deque()
