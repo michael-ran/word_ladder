@@ -43,7 +43,7 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     
     while word_q: 
         temp_stack = word_q.pop()
-        for word in words_copy:
+        for word in set(words):
             if _adjacent(word, temp_stack[-1]):
                     stack_copy = temp_stack.copy()
                     stack_copy.append(word)
