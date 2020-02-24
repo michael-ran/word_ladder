@@ -1,6 +1,6 @@
 #!/bin/python3
 import collections
-
+import copy
 
 def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     '''
@@ -32,7 +32,7 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     '''
     f = open(dictionary_file, 'r')
     words = [w.strip('\n') for w in f]
-    
+    words_copy = copy.copy(words) 
     if start_word == end_word:
         return([start_word])
     
@@ -43,14 +43,17 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     
     while word_q: 
         temp_stack = word_q.pop()
-        for word in words:
+        for word in words_copy:
             if _adjacent(word, temp_stack[-1]):
                     stack_copy = temp_stack.copy()
                     stack_copy.append(word)
                     if word == end_word:
                         return(stack_copy)
                     word_q.appendleft(stack_copy)
-                    words.remove(word)
+                    try:
+                        words.remove(word)
+                    except ValueError:
+                        pass
 
 
 def verify_word_ladder(ladder):
@@ -96,4 +99,3 @@ def _adjacent(word1, word2):
         return False
 
 
-word_ladder('chins', 'chine')
